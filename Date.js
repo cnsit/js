@@ -67,5 +67,12 @@ class CNDate extends Core {
       return null;
     }
   }
+  static diffDays(t, f) {
+    let td = this.std(t);
+    if (!this.isValid(td)) return null;
+    let fd = this.std(f);
+    if (!this.isValid(fd)) return null;
+    return Math.floor((td - fd) / 86400000);
+  }
 }
 module.exports = CNDate;
