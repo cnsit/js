@@ -1,0 +1,25 @@
+{
+  "name": "@cnsit/js",
+  "version": "0.0.2",
+  "description": "A JavaScript Library.",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cnsit/js.git"
+  },
+  "keywords": [
+    "javascript"
+  ],
+  "author": "Min Zhu",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/cnsit/js/issues"
+  },
+  "homepage": "https://github.com/cnsit/js#readme",
+  "devDependencies": {
+    "jest": "^26.1.0"
+  }
+}
