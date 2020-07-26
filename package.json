@@ -1,6 +1,6 @@
 {
   "name": "@cnsit/js",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "A JavaScript Library.",
   "main": "index.js",
   "scripts": {
@@ -10,7 +10,9 @@
     "type": "git",
     "url": "git://github.com/cnsit/js.git"
   },
-  "keywords": ["javascript"],
+  "keywords": [
+    "javascript"
+  ],
   "author": "Min Zhu",
   "license": "MIT",
   "bugs": {
