@@ -10,9 +10,8 @@
     "type": "git",
     "url": "git+https://github.com/cnsit/js.git"
   },
-  "keywords": [
-    "javascript"
-  ],
+  "publishConfig": { "registry": "https://npm.pkg.github.com/" },
+  "keywords": ["javascript"],
   "author": "Min Zhu",
   "license": "MIT",
   "bugs": {
