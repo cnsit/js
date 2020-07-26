@@ -1,5 +1,6 @@
 # CNSIT/js
 ![](https://github.com/cnsit/js/workflows/CI-UnitTest/badge.svg)
+
 This is a JavaScript Library which includes many useful features.
 ## Core
 The Core class for this library. Provide common features for all.
