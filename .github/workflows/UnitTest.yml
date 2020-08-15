@@ -29,6 +29,8 @@ jobs:
 
     - name: npm install, build and test
       run: |
+        ls
         cd ..
+        ls
         npm install
         npm test
