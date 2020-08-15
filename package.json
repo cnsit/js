@@ -1,6 +1,6 @@
 {
   "name": "@cnsit/js",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "A JavaScript Library.",
   "main": "index.js",
   "scripts": {
