@@ -22,12 +22,13 @@ console.log(CNDate.diffDays('2020-07-02','2020-09-21'));
 ```
 
 ## CNObject
-Handle many object operations.
+Handle many object operations. You can find an element from a big object by a key name or by a value.
 ```javascript
-   let a = {v:1,n:{m:'hi'}};
-   findByKeyName(a,'m');
-   // return [{m:'hi'}]
-   findByValue(a,'hi');
-   // return [{o:{m:'hi'},k:'m'}]
+const {CNObject} = require("@cnsit/js");
+let a = {v:1,n:{m:'hi'}};
+CNObject.findByKeyName(a,'m');
+// return [{m:'hi'}]
+CNObject.findByValue(a,'hi');
+// return [{o:{m:'hi'},k:'m'}]
 ```
 
