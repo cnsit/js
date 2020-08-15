@@ -1,4 +1,5 @@
 module.exports = {
   Core: require("./Core"),
-  Date: require("./Date")
+  CNDate: require("./Date"),
+  CNObject: require("./Object")
 };
