@@ -10,14 +10,24 @@ console.log(cnsit.Core.ping());
 console.log(cnsit.Core.isValid(null)); // check if the input is undefined or null
 ```
 
-## Date
+## CNDate
 A JavaScript class which handles date and time staffs.
 ```javascript
 const cnsit = require("@cnsit/js");
-console.log(cnsit.Date.ymd());      // print current date in YYYY-MM-DD format
-console.log(cnsit.Date.ymdhm());    // print current date in YYYY-MM-DD HH:mm format
-console.log(cnsit.Date.ymd('2020-01-02'));
-const {Date} = require("@cnsit/js");
-console.log(Date.diffDays('2020-07-02','2020-09-21'));
+console.log(cnsit.CNDate.ymd());      // print current date in YYYY-MM-DD format
+console.log(cnsit.CNDate.ymdhm());    // print current date in YYYY-MM-DD HH:mm format
+console.log(cnsit.CNDate.ymd('2020-01-02'));
+const {CNDate} = require("@cnsit/js");
+console.log(CNDate.diffDays('2020-07-02','2020-09-21'));
+```
+
+## CNObject
+Handle many object operations.
+```javascript
+   let a = {v:1,n:{m:'hi'}};
+   findByKeyName(a,'m');
+   // return [{m:'hi'}]
+   findByValue(a,'hi');
+   // return [{o:{m:'hi'},k:'m'}]
 ```
 
