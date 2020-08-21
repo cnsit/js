@@ -1,5 +1,6 @@
 module.exports = {
   Core: require("./Core"),
-  CNDate: require("./Date"),
-  CNObject: require("./Object")
+  CNDate: require("./CNDate"),
+  CNObject: require("./CNObject"),
+  Float: require("./Float")
 };
