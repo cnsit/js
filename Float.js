@@ -3,13 +3,19 @@ class Float extends Core {
   constructor(v) {
     super();
     if (Core.isValid(v)) {
-      this.wrap(v);
+      if (v instanceof Float) {
+        this.value = { int: v.value.int, exp: v.value.exp };
+      } else {
+        this.wrap(v);
+      }
+    } else {
+      this.wrap(0);
     }
   }
   wrap(v) {
     let d = this.toInt(v);
     if (!d) {
-      throw "Invalid input value.";
+      throw "Float: invalid input value.";
     }
     this.value = d;
   }
@@ -21,7 +27,7 @@ class Float extends Core {
     // get every part of our number
     var reg = /([+-]*)([0-9]+)\.*([0-9]*)([eE]*)([+-]*\d+)*/gi;
     var res = reg.exec(s);
-    if (!this.isNumber(res)) return res;
+    if (!Core.isValid(res)) return res;
     var ret = {};
     let sign = "+";
     if (this.isNumber(res[1])) {
@@ -35,8 +41,9 @@ class Float extends Core {
     if (this.isNumber(res[3])) {
       decString = res[3].substring(
         0,
-        res[3].length - this.countSuffixZeros(res[3])
+        res[3].length - Float.countSuffixZeros(res[3])
       );
+      if (decString === "0") decString = "";
     }
     if (this.isNumber(res[5])) {
       ret.exp = parseInt(res[5]);
@@ -46,7 +53,7 @@ class Float extends Core {
     // now, let's analyze the number
     // console.log(v, ret.exp, intString, decString);
     intString = intString + decString;
-    let zi = this.countSuffixZeros(intString);
+    let zi = Float.countSuffixZeros(intString);
     ret.int = parseInt(sign + intString.substring(0, intString.length - zi));
     ret.exp = ret.exp - decString.length + zi; // 3.14e1 = 31.4, 31400 = 314e2
     return ret;
@@ -57,7 +64,7 @@ class Float extends Core {
     );
     return v;
   }
-  countSuffixZeros(s) {
+  static countSuffixZeros(s) {
     let zi = 0;
     let l = s.toString().length - 1;
     // count how many surfix zeros we have
@@ -68,6 +75,7 @@ class Float extends Core {
         break;
       }
     }
+    if (zi === l + 1) return 0; // int = '0'
     return zi;
   }
   static shiftLeft(n, l) {
@@ -89,19 +97,19 @@ class Float extends Core {
     }
   }
   add(v) {
-    let n = this.toInt(v);
+    let n = this.param(v);
     Float.align(this.value, n);
     this.value.int += n.int;
     return this;
   }
   sub(v) {
-    let n = this.toInt(v);
+    let n = this.param(v);
     Float.align(this.value, n);
     this.value.int -= n.int;
     return this;
   }
   mul(v) {
-    let n = this.toInt(v);
+    let n = this.param(v);
     Float.align(this.value, n);
     this.value.int *= n.int;
     this.value.exp *= 2;
@@ -109,10 +117,19 @@ class Float extends Core {
     return this;
   }
   div(v) {
-    let n = this.toInt(v);
+    let n = this.param(v);
     Float.align(this.value, n);
     this.wrap((this.value.int /= n.int));
     return this;
+  }
+  param(v) {
+    let n = null;
+    if (!(v instanceof Float)) {
+      n = this.toInt(v);
+    } else {
+      n = v.value;
+    }
+    return n;
   }
 }
 module.exports = Float;

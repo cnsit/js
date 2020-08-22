@@ -1,4 +1,12 @@
 const { Float } = require("../index");
+test("zero", () => {
+  let v = 0;
+  let f = new Float(v);
+  expect(f.value).toStrictEqual({ int: 0, exp: 0 });
+
+  f = new Float("0.0");
+  expect(f.value).toStrictEqual({ int: 0, exp: 0 });
+});
 test("the pi", () => {
   let v = 3.14;
   let f = new Float(v);
@@ -99,6 +107,10 @@ test("mul", () => {
   let v = 0.11;
   let f = new Float(v);
   expect(f.mul(0.1).value).toStrictEqual({ int: 11, exp: -3 });
+
+  f = new Float(1.1);
+  let f2 = new Float(1.1);
+  expect(f.mul(f2).value).toStrictEqual({ int: 121, exp: -2 });
 });
 test("div", () => {
   let v = 0.11;
