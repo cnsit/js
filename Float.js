@@ -13,14 +13,19 @@ class Float extends Core {
     }
   }
   wrap(v) {
-    let d = this.toInt(v);
+    let d = null;
+    if (typeof v === "object" && Core.isNumber(v.int) && Core.isNumber(v.exp)) {
+      d = v;
+    } else if (v === Infinity) {
+      d = { int: Infinity, exp: 0 };
+    } else {
+      d = this.toInt(v);
+    }
     if (!d) {
       throw "Float: invalid input value.";
+    } else {
+      this.value = d;
     }
-    this.value = d;
-  }
-  isNumber(n) {
-    return typeof n !== "undefined" && n !== null && !(n != n) && n !== "";
   }
   toInt(v) {
     let s = v.toString();
@@ -30,22 +35,22 @@ class Float extends Core {
     if (!Core.isValid(res)) return res;
     var ret = {};
     let sign = "+";
-    if (this.isNumber(res[1])) {
+    if (Core.isValid(res[1])) {
       sign = res[1];
     }
     let intString = "0";
-    if (this.isNumber(res[2])) {
+    if (Core.isNumber(res[2])) {
       intString = parseInt(res[2]).toString();
     }
     let decString = "";
-    if (this.isNumber(res[3])) {
+    if (Core.isNumber(res[3])) {
       decString = res[3].substring(
         0,
         res[3].length - Float.countSuffixZeros(res[3])
       );
       if (decString === "0") decString = "";
     }
-    if (this.isNumber(res[5])) {
+    if (Core.isNumber(res[5])) {
       ret.exp = parseInt(res[5]);
     } else {
       ret.exp = 0;
@@ -122,6 +127,11 @@ class Float extends Core {
     this.wrap((this.value.int /= n.int));
     return this;
   }
+  /**
+   * Prepare parameters to all calculations
+   * @param {any} v - Parameter
+   * @returns {object} Float Value {int, exp}
+   */
   param(v) {
     let n = null;
     if (!(v instanceof Float)) {
@@ -130,6 +140,66 @@ class Float extends Core {
       n = v.value;
     }
     return n;
+  }
+  equal(v) {
+    let n = this.param(v);
+    return n.int === this.value.int && n.exp === this.value.exp;
+  }
+  getInt() {
+    return this.value.int;
+  }
+  getExp() {
+    return this.value.exp;
+  }
+  static getExpFromScale(scale) {
+    let exp = 0;
+    if (scale === "f") exp = -15;
+    else if (scale === "p") exp = -12;
+    else if (scale === "n") exp = -9;
+    else if (scale === "µ" || scale === "u") exp = -6;
+    else if (scale === "m") exp = -3;
+    else if (scale === "c") exp = -2;
+    else if (scale === "") exp = 0;
+    else if (scale === "k" || scale === "K") exp = 3;
+    else if (scale === "M") exp = 6;
+    else if (scale === "G") exp = 9;
+    else if (scale === "T") exp = 12;
+    return exp;
+  }
+  static getBeautifyFactor(f) {
+    // set beautiful unit
+    // rules:
+    // 1. 整数部分不可少于 1 位 (0)，小于则进入低一个量级
+    // 2. 整数部分不可超过 3 位，超过则进入高一个量级
+    // 2000000 => 2M
+    // 200000 => 200k
+    // 20000 => 20k
+    // 2000 => 2k
+    // 200
+    // 20
+    // 2
+    // 0.2 => 200m
+    // 0.02 => 20m
+    // 0.002 => 2m
+    // 0.0002 => 200u
+    let diff = f.getInt().toString().length + f.getExp();
+    // Num    diff        exp     factor          Math.floor
+    // =============================================================
+    // 1000   diff = 4    exp - 3 scaleIndex + 1  diff/3 = 1
+    // 100    diff = 3    exp + 0                 diff/3 = 0
+    // 10     diff = 2    exp + 0                 diff/3 = 0
+    // 1      diff = 1    exp + 0                 diff/3 = 0
+    // 0.1    diff = 0    exp + 3 scaleIndex - 1  ceil(diff/3) = 0
+    // 0.01   diff = -1   exp + 3 scaleIndex - 1  ceil(diff/3) = 0
+    // 0.001  diff = -2   exp + 3 scaleIndex - 1  ceil(diff/3) = 0
+    // 0.0001 diff = -3   exp + 6 scaleIndex - 2  ceil(diff/3) = -1
+    let factor = 0;
+    if (diff > 0) {
+      factor = Math.floor((diff - 1) / 3);
+    } else {
+      factor = Math.ceil(diff / 3) - 1;
+    }
+    return factor;
   }
 }
 module.exports = Float;

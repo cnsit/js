@@ -118,3 +118,24 @@ test("div", () => {
   expect(f.div(0.1).value).toStrictEqual({ int: 11, exp: -1 });
   expect(f.unpack()).toBe(1.1);
 });
+test("equal", () => {
+  let v = 1;
+  let f = new Float(v);
+  expect(f.equal("1.")).toBeTruthy();
+  expect(f.equal("1.0")).toBeTruthy();
+});
+test("scale", () => {
+  expect(Float.getExpFromScale("p")).toBe(-12);
+  expect(Float.getBeautifyFactor(new Float(0.0000314))).toBe(-2);
+  expect(Float.getBeautifyFactor(new Float(0.000314))).toBe(-2);
+  expect(Float.getBeautifyFactor(new Float(0.00314))).toBe(-1);
+  expect(Float.getBeautifyFactor(new Float(0.0314))).toBe(-1);
+  expect(Float.getBeautifyFactor(new Float(0.314))).toBe(-1);
+  expect(Float.getBeautifyFactor(new Float(3.14))).toBe(0);
+  expect(Float.getBeautifyFactor(new Float(31.4))).toBe(0);
+  expect(Float.getBeautifyFactor(new Float(314.0))).toBe(0);
+  expect(Float.getBeautifyFactor(new Float(3140))).toBe(1);
+  expect(Float.getBeautifyFactor(new Float(31400))).toBe(1);
+  expect(Float.getBeautifyFactor(new Float(314000))).toBe(1);
+  expect(Float.getBeautifyFactor(new Float(3140000))).toBe(2);
+});
