@@ -69,6 +69,11 @@ class Float extends Core {
     );
     return v;
   }
+  /**
+   * Count number of zeros from right
+   * @param {number} s - The number.
+   * @returns {number} Number of suffix zeros. If s=0, then return 0.
+   */
   static countSuffixZeros(s) {
     let zi = 0;
     let l = s.toString().length - 1;
@@ -127,6 +132,14 @@ class Float extends Core {
     this.wrap((this.value.int /= n.int));
     return this;
   }
+  pow(n) {
+    this.wrap(Math.pow(this.unpack(), n));
+    return this;
+  }
+  sqrt() {
+    this.wrap(Math.sqrt(this.unpack()));
+    return this;
+  }
   /**
    * Prepare parameters to all calculations
    * @param {any} v - Parameter
@@ -151,6 +164,11 @@ class Float extends Core {
   getExp() {
     return this.value.exp;
   }
+  /**
+   * Get exponential number of the given scale.
+   * @param {string} scale - Scale, like 'k', 'M' or etc.
+   * @returns {number} The exponential number.
+   */
   static getExpFromScale(scale) {
     let exp = 0;
     if (scale === "f") exp = -15;
@@ -166,6 +184,11 @@ class Float extends Core {
     else if (scale === "T") exp = 12;
     return exp;
   }
+  /**
+   * Calculate how many folders will be added to the float for a beautiful display.
+   * @param {Float} f - A Float instance.
+   * @returns {number} Scale folder number. exp -= 3*folder and scaleBaseIndex + folder.
+   */
   static getBeautifyFactor(f) {
     // set beautiful unit
     // rules:
