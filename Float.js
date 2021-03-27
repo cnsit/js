@@ -149,8 +149,10 @@ class Float extends Core {
     let n = null;
     if (!(v instanceof Float)) {
       n = this.toInt(v);
-    } else {
+    } else if (typeof v === "object") {
       n = v.value;
+    } else {
+      return 0;
     }
     return n;
   }

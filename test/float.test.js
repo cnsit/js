@@ -117,6 +117,8 @@ test("div", () => {
   let f = new Float(v);
   expect(f.div(0.1).value).toStrictEqual({ int: 11, exp: -1 });
   expect(f.unpack()).toBe(1.1);
+  f = new Float(2.828);
+  expect(f.div(2.828).value).toStrictEqual({ int: 1, exp: 0 });
 });
 test("pow", () => {
   let v = 0.11;
